@@ -37,6 +37,6 @@ class ManifestHandler:
             LoggerUtility.logError("Unable to update manifest status for  batchId {} and table {}".format(batch_id,table_name))
             raise e
     
-    def update_manifest_(self, event, context):
+    def update_manifest(self, event, context):
         self.__update_manifest_status(event, context)
         
