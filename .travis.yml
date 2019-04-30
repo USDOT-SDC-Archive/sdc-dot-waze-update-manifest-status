@@ -2,11 +2,8 @@ language: python
 python:
     - 3.6
 install:
-    - pip install boto3
     - pip install utils
-    - pip install moto
     - pip install coverage
-
 script: 
-    - python dataProcessor.py
+    - python update_manifest_status_handler_main.py
     - sonar-scanner
