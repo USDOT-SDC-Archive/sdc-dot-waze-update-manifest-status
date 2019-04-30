@@ -7,4 +7,3 @@ install:
     - pip install moto
 script: 
     - python update_manifest_status_handler_main.py
-    - sonar-scanner
