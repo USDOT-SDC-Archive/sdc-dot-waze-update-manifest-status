@@ -11,5 +11,4 @@ addons:
         token:
              secure: "RaBR4kdZNonWmVYTA1VnszXriSxbYqEbwF6KrWCUcrGqyuHwVhLxgoL2CMzCaFf9ObajdZ76ZX8o3iQX4Efn2uqkoqGxNXP6uITVVNzA8YAaHjYqCusw8bbgdBYYlKvjpSVA2kwtqG/6R/vbp8X4xI0u72aR96fuGG1QJMwOI7XdRH7688PeHgxTvu2tVP7LPlwlZOkAx5tF+I+hZvgVjQ9V4BINRVYw2+b5JJjM6WXWCxeA3KF0wkswaEE2f0Qra37PIuriRRtlovPvM0rcaVV/jjM3YGLGZVEB8EzNb4t6E+tsqkJTeylwdyyQj5H1joP5Z/aczq5LfJ92WyrgUBBEkEq27QdKZ5cuTpxoeI36w+AiVwmVokbbDJDqytV2ZPZm+joxcYvGqp2FFbDZiZQxIattMb1YM6PFIt4ywt+If3sSo6hKvOrPQFhNmDn9p/TUJiyB2fQrRx4DSphrssFXwZT8bQf34ddER2Fct1ZuKxfYEEZlpq5qEHxXuKauYh/cRgYavHUlYEV7ApLic9fduteuoy4KY19JuypQHqUQd/g0cFiuQEYIpw5rpZ006AbaH9AYg+aNXcWlMWv1D/nDTzHIVoUGdIcfw+FfhRLW/ksnYjD8LUrxG/z5/qrgJMVJ3e8RG4ced2iifDFPxXJPCoha0PpGxJpD2BhSv+w="
 script: 
-    - python update_manifest_status_handler_main.py
     - sonar-scanner
