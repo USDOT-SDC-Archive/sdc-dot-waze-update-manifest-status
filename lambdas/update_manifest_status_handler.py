@@ -1,16 +1,15 @@
 import boto3
-import json
-import os
 from common.logger_utility import *
-from common.constants import *
 from boto3.dynamodb.conditions import Attr, Key
 
 class ManifestHandler:
 
-    def __update_manifest_status(self,event, context):
+    def update_manifest_status(self, event, context):
+        batch_id = ""
+        table_name = ""
         try:
             session = boto3.session.Session()
-            ddb = session.resource('dynamodb')
+            ddb = session.resource('dynamodb', region_name='us-east-1')
             ddb_table_name = os.environ['DDB_MANIFEST_TABLE_ARN'].split('/')[1]
             manifest_index_name = os.environ['DDB_MANIFEST_FILES_INDEX_NAME']
             table_name = event['tablename']
@@ -38,5 +37,4 @@ class ManifestHandler:
             raise e
     
     def update_manifest(self, event, context):
-        self.__update_manifest_status(event, context)
-        
+        self.update_manifest_status(event, context)

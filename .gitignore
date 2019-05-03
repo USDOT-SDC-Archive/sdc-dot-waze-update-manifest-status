@@ -3,4 +3,6 @@
 **.pyc
 **/**.pyc
 .idea/
-.vscode/
+.pytest_cache/**
+.coverage
+html_coverage_reports/**
