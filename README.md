@@ -1,36 +1,120 @@
 [![Build Status](https://travis-ci.com/usdot-jpo-sdc/sdc-dot-waze-update-manifest-status.svg?branch=master)](https://travis-ci.com/usdot-jpo-sdc/sdc-dot-waze-update-manifest-status)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usdot-jpo-sdc_sdc-dot-waze-update-manifest-status&metric=alert_status)](https://sonarcloud.io/dashboard?id=usdot-jpo-sdc_sdc-dot-waze-update-manifest-status)
-# sdc-dot-cvp-ingest
-US Department of Transportation (USDOT) Intelligent Transportation Systems Secure Data Commons (ITS SDC). Connected Vehicle Pilots (CVP) tools to support data ingest into the Data Lake.
+# sdc-dot-waze-update-manifest-status
+This lambda function is responsible for updating the manifest status in dynamoDB.
 
-## Secure Data Commons - Introduction
-The Secure Data Commons (SDC) is a United States Department of Transportation (U.S DOT) sponsored cloud-based analytical sandbox designed to create wider access to sensitive transportation data sets, with the goal of advancing the state of the art of transportation research and state/local traffic management. 
+<a name="toc"/>
 
-The SDC stores sensitive transportation data made available by participating data providers, and grants access to approved researchers to these datasets. The SDC also provides access to open-source tools, and allow researchers to collaborate and share code with other system users.
+## Table of Contents
 
-The SDC platform is a research environment that allows users to conduct analyses and do development and testing of new tools and software products.  It is not intended to be an alternative to any local jurisdiction’s traffic management center or local data repository.  The existing SDC provides users with the following data, tools, and features:
+[I. Release Notes](#release-notes)
 
-* Data: The SDC is ingesting several datasets currently. Additional data sets will be added to the environment over time.
-* Tools: The environment provides access to open source tools including Python, RStudio, Microsoft R, SQL Workbench, Power BI, Jupyter Notebook, and others. These tools are available on a virtual machine in the system enabling data analytics in the cloud. 
-* Functionality: Users can access and analyze data within the environment, save their work to a virtual machine, and publish processes and results to share with others.
+[II. Overview](#overview)
 
-The SDC platform supports two major roles:
+[III. Design Diagram](#design-diagram)
 
-* Data Providers: These are entities that provide data hosted on the SDC platform. The data provider establishes the data protection needs and acceptable use terms for the data analysts. 
-* Data Analysts: These are entities that conduct analysis of the datasets hosted in the SDC system.  Note that analysts can bring their own data and tools into the SDC system.
+[IV. Getting Started](#getting-started)
 
-The following diagram represents a high level overview of the SDC Platform:
+[V. Unit Tests](#unit-tests)
 
-![SDC System Diagram](https://github.com/usdot-jpo-sdc/sdc-dot-cvp-staging/blob/master/images/sdc_system_diagram.jpg)
+[VI. Support](#support)
 
-Looking from the bottom up, the [ITS ODE service](https://github.com/usdot-jpo-ode) performs near-real time data ingest via Kinesis Firehose, while data ingest trhough S3 ingest buckets are done either with automated scripts or manually.
+---
 
-## AWS S3 Data Ingest Repository
-
-There are 2 methods of ingesting data sets into the SDC: near-real time ingest through a Kinesis Firehose endpoint, and data ingest through an S3 ingest bucket.
-
-For a Kinesis Firehose ingest, data files are copied directly into a Data Lake S3-based message repository according to Firehose's configuration. For an S3 ingest, data files are uploaded into an S3 ingest bucket and moved into the Data Lake with a Lambda function.
-
-This repository contains Lambda function implementation for the S3 data ingest flow as well as unit test and corresponding scrits to exercise this function.
+<a name="release-notes"/>
 
 
+## [I. Release Notes](ReleaseNotes.md)
+TO BE UPDATED
+
+<a name="overview"/>
+
+## II. Overview
+The primary function that this lambda function serves:
+* **update_manifest_status** - updates the manifest status or Filestatus to completed for a particular batch id in the DynamoDB table.
+
+<a name="design-diagram"/>
+
+## III. Design Diagram
+
+![sdc-dot-waze-update-manifest-status](images/waze-data-persistence.png)
+
+<a name="getting-started"/>
+
+## IV. Getting Started
+
+The following instructions describe the procedure to build and deploy the lambda.
+
+### Prerequisites
+* NA 
+
+---
+### ThirdParty library
+
+*NA
+
+### Licensed softwares
+
+*NA
+
+### Programming tool versions
+
+*Python 3.6
+
+
+---
+### Build and Deploy the Lambda
+
+#### Environment Variables
+Below are the environment variables needed :- 
+
+DDB_MANIFEST_TABLE_ARN - {arn_of_manifest_table_in_dynamodb}
+
+DDB_MANIFEST_FILES_INDEX_NAME - {manifest_files_index_name_in_dynamodb}
+
+#### Build Process
+
+**Step 1**: Setup virtual environment on your system by foloowing below link
+https://docs.aws.amazon.com/lambda/latest/dg/with-s3-example-deployment-pkg.html#with-s3-example-deployment-pkg-python
+
+**Step 2**: Create a script with below contents e.g(sdc-dot-waze-update-manifest-status.sh)
+```#!/bin/sh
+
+cd sdc-dot-waze-update-manifest-status
+zipFileName="sdc-dot-waze-update-manifest-status.zip"
+
+zip -r9 $zipFileName common/*
+zip -r9 $zipFileName lambdas/*
+zip -r9 $zipFileName README.md
+zip -r9 $zipFileName update_manifest_status_handler_main.py
+zip -r9 $zipFileName root.py
+```
+
+**Step 3**: Change the permission of the script file
+
+```
+chmod u+x sdc-dot-waze-update-manifest-status.sh
+```
+
+**Step 4** Run the script file
+./sdc-dot-waze-update-manifest-status.sh
+
+**Step 5**: Upload the sdc-dot-waze-update-manifest-status.zip generated from Step 4 to a lambda function via aws console.
+
+[Back to top](#toc)
+
+---
+<a name="unit-tests"/>
+
+## V. Unit Tests
+
+TO BE UPDATED
+
+---
+<a name="support"/>
+
+## VI. Support
+
+For any queries you can reach to support@securedatacommons.com
+---
+[Back to top](#toc)
