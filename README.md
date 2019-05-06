@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.com/usdot-jpo-sdc/sdc-dot-waze-update-manifest-status.svg?branch=develop)](https://travis-ci.com/usdot-jpo-sdc/sdc-dot-waze-update-manifest-status)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=usdot-jpo-sdc_sdc-dot-waze-update-manifest-status&metric=coverage)](https://sonarcloud.io/dashboard?id=usdot-jpo-sdc_sdc-dot-waze-update-manifest-status)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usdot-jpo-sdc_sdc-dot-waze-update-manifest-status&metric=alert_status)](https://sonarcloud.io/dashboard?id=usdot-jpo-sdc_sdc-dot-waze-update-manifest-status)
 # sdc-dot-waze-update-manifest-status
 This lambda function is responsible for updating the manifest status in dynamoDB.
 
