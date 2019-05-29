@@ -11,57 +11,66 @@ manifest_table_name = "dev-CurationManifestFilesTable"
 manifest_index_name = "dev-BatchId-TableName-index"
 
 @mock_dynamodb2
-def test_update_manifest_status_raises_exception():
-    with pytest.raises(Exception):
-        ddb = boto3.client('dynamodb', region_name='us-east-1')
-        ddb.create_table(AttributeDefinitions=[{
+def create_mock_table():
+    ddb = boto3.client('dynamodb', region_name='us-east-1')
+    ddb.create_table(AttributeDefinitions=[{
             'AttributeName': 'ManifestId',
             'AttributeType': 'S'
         },
+        {
+            'AttributeName': 'BatchId',
+            'AttributeType': 'S'
+        },
+        {
+            'AttributeName': 'TableName',
+            'AttributeType': 'S'
+        },
+        {
+            'AttributeName': 'FileStatus',
+            'AttributeType': 'S'
+        }],
+        TableName=manifest_table_name,
+        KeySchema=[
             {
-                'AttributeName': 'BatchId',
-                'AttributeType': 'S'
+                'AttributeName': 'ManifestId',
+                'KeyType': 'HASH'
             },
             {
-                'AttributeName': 'TableName',
-                'AttributeType': 'S'
-            }],
-            TableName=manifest_table_name,
-            KeySchema=[
+                'AttributeName': 'BatchId',
+                'KeyType': 'RANGE'
+            }
+        ],
+        GlobalSecondaryIndexes=[{
+            'IndexName': manifest_index_name,
+            'KeySchema': [
                 {
-                    'AttributeName': 'ManifestId',
+                    'AttributeName': 'BatchId',
                     'KeyType': 'HASH'
                 },
                 {
-                    'AttributeName': 'BatchId',
+                    'AttributeName': 'TableName',
                     'KeyType': 'RANGE'
                 }
             ],
-            GlobalSecondaryIndexes=[{
-                'IndexName': manifest_index_name,
-                'KeySchema': [
-                    {
-                        'AttributeName': 'BatchId',
-                        'KeyType': 'HASH'
-                    },
-                    {
-                        'AttributeName': 'TableName',
-                        'KeyType': 'RANGE'
-                    }
-                ],
-                'Projection': {
-                    'ProjectionType': 'ALL',
-                },
-                'ProvisionedThroughput': {
-                    'ReadCapacityUnits': 15,
-                    'WriteCapacityUnits': 20
-                }
-            }],
-            ProvisionedThroughput={
-                'ReadCapacityUnits': 5,
-                'WriteCapacityUnits': 10
+            'Projection': {
+                'ProjectionType': 'ALL',
             },
-        )
+            'ProvisionedThroughput': {
+                'ReadCapacityUnits': 15,
+                'WriteCapacityUnits': 20
+            }
+        }],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 5,
+            'WriteCapacityUnits': 10
+        },
+    )
+
+@mock_dynamodb2
+def test_update_manifest_status_raises_exception():
+    create_mock_table()
+    with pytest.raises(Exception):
+        ddb = boto3.client('dynamodb', region_name='us-east-1')
         test_event = dict()
         test_event["batchId"] = str(int(time.time()))
         test_event["tablename"] = "alert"
@@ -70,55 +79,8 @@ def test_update_manifest_status_raises_exception():
 
 @mock_dynamodb2
 def test_update_manifest_status():
+    create_mock_table()
     ddb = boto3.client('dynamodb', region_name='us-east-1')
-    ddb.create_table(AttributeDefinitions=[{
-        'AttributeName': 'ManifestId',
-        'AttributeType': 'S'
-        },
-        {
-        'AttributeName': 'BatchId',
-        'AttributeType': 'S'
-        },
-        {
-        'AttributeName': 'TableName',
-        'AttributeType': 'S'
-        }],
-    TableName=manifest_table_name,
-    KeySchema=[
-        {
-            'AttributeName': 'ManifestId',
-            'KeyType': 'HASH'
-        },
-        {
-            'AttributeName': 'BatchId',
-            'KeyType': 'RANGE'
-        }
-    ],
-    GlobalSecondaryIndexes=[{
-        'IndexName': manifest_index_name,
-        'KeySchema': [
-            {
-                'AttributeName': 'BatchId',
-                'KeyType': 'HASH'
-            },
-            {
-                'AttributeName': 'TableName',
-                'KeyType': 'RANGE'
-            }
-        ],
-        'Projection': {
-            'ProjectionType': 'ALL',
-        },
-        'ProvisionedThroughput': {
-            'ReadCapacityUnits': 15,
-            'WriteCapacityUnits': 20
-        }
-    }],
-    ProvisionedThroughput={
-        'ReadCapacityUnits': 5,
-        'WriteCapacityUnits': 10
-    },
-    )
     os.environ["DDB_MANIFEST_TABLE_ARN"] = "arn:aws:dynamodb:us-east-1::table/dev-CurationManifestFilesTable"
     os.environ["DDB_MANIFEST_FILES_INDEX_NAME"] = "dev-BatchId-TableName-index"
     test_event = dict()
@@ -130,71 +92,26 @@ def test_update_manifest_status():
 
 @mock_dynamodb2
 def test_update_manifest_status_with_item():
+    create_mock_table()
     ddb = boto3.client('dynamodb', region_name='us-east-1')
     ddb_res = boto3.resource('dynamodb', region_name='us-east-1')
-    ddb.create_table(AttributeDefinitions=[{
-            'AttributeName': 'ManifestId',
-            'AttributeType': 'S'
-        },
-            {
-                'AttributeName': 'BatchId',
-                'AttributeType': 'S'
-            },
-            {
-                'AttributeName': 'TableName',
-                'AttributeType': 'S'
-            }],
-            TableName=manifest_table_name,
-            KeySchema=[
-                {
-                    'AttributeName': 'ManifestId',
-                    'KeyType': 'HASH'
-                },
-                {
-                    'AttributeName': 'BatchId',
-                    'KeyType': 'RANGE'
-                }
-            ],
-            GlobalSecondaryIndexes=[{
-                'IndexName': manifest_index_name,
-                'KeySchema': [
-                    {
-                        'AttributeName': 'BatchId',
-                        'KeyType': 'HASH'
-                    },
-                    {
-                        'AttributeName': 'TableName',
-                        'KeyType': 'RANGE'
-                    }
-                ],
-                'Projection': {
-                    'ProjectionType': 'ALL',
-                },
-                'ProvisionedThroughput': {
-                    'ReadCapacityUnits': 15,
-                    'WriteCapacityUnits': 20
-                }
-            }],
-            ProvisionedThroughput={
-                'ReadCapacityUnits': 5,
-                'WriteCapacityUnits': 10
-            },
-        )
-    batchId = 11010100
+    batchId = '17476592384'
     table = ddb_res.Table(manifest_table_name)
     table.put_item(
            Item={
-               'ManifestId': 7,
+               'ManifestId': 'dev-BatchId-TableName-index',
                'BatchId': batchId,
+               'TableName': manifest_table_name,
+               'FileStatus': 'open',
             }
         )
     os.environ["DDB_MANIFEST_TABLE_ARN"] = "arn:aws:dynamodb:us-east-1::table/dev-CurationManifestFilesTable"
-    os.environ["DDB_MANIFEST_FILES_INDEX_NAME"] = "dev-BatchId-TableName-index"
+    os.environ["DDB_MANIFEST_FILES_INDEX_NAME"] = manifest_index_name
     test_event = dict()
     test_event["batchId"] = batchId
-    test_event["tablename"] = "alert"
+    test_event["tablename"] = manifest_table_name
     update_manifest_obj = ManifestHandler()
-    update_manifest_obj.update_manifest_status(test_event, None)
+    update_manifest_obj.update_manifest(test_event, None)
     assert True
 
 @mock_events
