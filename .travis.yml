@@ -13,7 +13,7 @@ branches:
 
 addons:
     sonarcloud:
-        organization: "usdot-jpo-sdc"
+        organization: "usdot-jpo-sdc-projects"
 script: 
     - coverage erase
     - sonar-scanner -X -D sonar.login=$SONAR_TOKEN
