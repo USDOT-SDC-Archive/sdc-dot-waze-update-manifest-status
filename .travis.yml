@@ -6,6 +6,7 @@ install:
     - pip install utils
     - pip install moto
     - pip install coverage
+    - pip install google-compute-engine
 branches:
     only:
         - master
