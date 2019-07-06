@@ -10,6 +10,7 @@ from lambdas.update_manifest_status_handler import ManifestHandler
 manifest_table_name = "dev-CurationManifestFilesTable"
 manifest_index_name = "dev-BatchId-TableName-index"
 
+
 @mock_dynamodb2
 def create_mock_table():
     ddb = boto3.client('dynamodb', region_name='us-east-1')
@@ -77,6 +78,7 @@ def test_update_manifest_status_raises_exception():
         update_manifest_obj = ManifestHandler()
         update_manifest_obj.update_manifest_status(test_event, None)
 
+
 @mock_dynamodb2
 def test_update_manifest_status():
     create_mock_table()
@@ -90,17 +92,18 @@ def test_update_manifest_status():
     update_manifest_obj.update_manifest_status(test_event, None)
     assert True
 
+
 @mock_dynamodb2
 def test_update_manifest_status_with_item():
     create_mock_table()
     ddb = boto3.client('dynamodb', region_name='us-east-1')
     ddb_res = boto3.resource('dynamodb', region_name='us-east-1')
-    batchId = '17476592384'
+    batch_id = '17476592384'
     table = ddb_res.Table(manifest_table_name)
     table.put_item(
            Item={
                'ManifestId': 'dev-BatchId-TableName-index',
-               'BatchId': batchId,
+               'BatchId': batch_id,
                'TableName': manifest_table_name,
                'FileStatus': 'open',
             }
@@ -108,11 +111,12 @@ def test_update_manifest_status_with_item():
     os.environ["DDB_MANIFEST_TABLE_ARN"] = "arn:aws:dynamodb:us-east-1::table/dev-CurationManifestFilesTable"
     os.environ["DDB_MANIFEST_FILES_INDEX_NAME"] = manifest_index_name
     test_event = dict()
-    test_event["batchId"] = batchId
+    test_event["batchId"] = batch_id
     test_event["tablename"] = manifest_table_name
     update_manifest_obj = ManifestHandler()
     update_manifest_obj.update_manifest(test_event, None)
     assert True
+
 
 @mock_events
 def test_update_manifest():
