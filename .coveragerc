@@ -32,6 +32,6 @@ omit=
     **/images/**
 
 [html]
-    directory = html_coverage_reports
-    title = Coverage Report for sdc-dot-waze-update-manifest-status
+directory = html_coverage_reports
+title = Coverage Report for sdc-dot-waze-update-manifest-status
 
