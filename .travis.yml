@@ -6,6 +6,8 @@ install:
     - pip install utils
     - pip install moto
     - pip install coverage
+    - pip install google-compute-engine
+    
 branches:
     only:
         - master
@@ -15,4 +17,6 @@ addons:
         organization: "usdot-jpo-sdc-projects"
 script: 
     - coverage erase
+    - coverage run -m pytest tests/
+    - coverage xml -i
     - sonar-scanner -X -D sonar.login=$SONAR_TOKEN
