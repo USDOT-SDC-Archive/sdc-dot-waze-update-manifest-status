@@ -24,8 +24,7 @@ class ManifestHandler:
 
             if response['Count'] > 0:
                 for item in response['Items']:
-                    table_name = item['TableName']
-                    if table_name == table_name:
+                    if table_name == item['TableName']:
                         ddb_table.update_item(
                             Key={'ManifestId': item['ManifestId'], 'BatchId': batch_id},
                             UpdateExpression='set FileStatus = :f',
