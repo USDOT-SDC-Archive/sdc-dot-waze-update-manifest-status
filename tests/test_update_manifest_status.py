@@ -71,43 +71,37 @@ def create_mock_table():
 def test_update_manifest_status_raises_exception():
     create_mock_table()
     with pytest.raises(Exception):
-        ddb = boto3.client('dynamodb', region_name='us-east-1')
         test_event = dict()
         test_event["batchId"] = str(int(time.time()))
         test_event["tablename"] = "alert"
         update_manifest_obj = ManifestHandler()
-        update_manifest_obj.update_manifest_status(test_event, None)
+        update_manifest_obj.update_manifest_status(test_event)
 
 
 @mock_dynamodb2
 def test_update_manifest_status():
     create_mock_table()
-    ddb = boto3.client('dynamodb', region_name='us-east-1')
     os.environ["DDB_MANIFEST_TABLE_ARN"] = "arn:aws:dynamodb:us-east-1::table/dev-CurationManifestFilesTable"
     os.environ["DDB_MANIFEST_FILES_INDEX_NAME"] = "dev-BatchId-TableName-index"
     test_event = dict()
     test_event["batchId"] = str(int(time.time()))
     test_event["tablename"] = "alert"
     update_manifest_obj = ManifestHandler()
-    update_manifest_obj.update_manifest_status(test_event, None)
-    assert True
+    update_manifest_obj.update_manifest_status(test_event)
 
 
 @mock_dynamodb2
 def test_update_manifest_status_with_item():
     create_mock_table()
-    ddb = boto3.client('dynamodb', region_name='us-east-1')
     ddb_res = boto3.resource('dynamodb', region_name='us-east-1')
     batch_id = '17476592384'
     table = ddb_res.Table(manifest_table_name)
-    table.put_item(
-           Item={
-               'ManifestId': 'dev-BatchId-TableName-index',
-               'BatchId': batch_id,
-               'TableName': manifest_table_name,
-               'FileStatus': 'open',
-            }
-        )
+    table.put_item(Item={
+       'ManifestId': 'dev-BatchId-TableName-index',
+       'BatchId': batch_id,
+       'TableName': manifest_table_name,
+       'FileStatus': 'open'
+    })
     os.environ["DDB_MANIFEST_TABLE_ARN"] = "arn:aws:dynamodb:us-east-1::table/dev-CurationManifestFilesTable"
     os.environ["DDB_MANIFEST_FILES_INDEX_NAME"] = manifest_index_name
     test_event = dict()
@@ -115,14 +109,10 @@ def test_update_manifest_status_with_item():
     test_event["tablename"] = manifest_table_name
     update_manifest_obj = ManifestHandler()
     update_manifest_obj.update_manifest(test_event, None)
-    assert True
 
 
 @mock_events
 def test_update_manifest():
     with pytest.raises(Exception):
-        # test_event = dict()
-        # test_event["batchId"] = str(int(time.time()))
-        # test_event["tablename"] = "alert"
         update_manifest_obj = ManifestHandler()
-        assert update_manifest_obj.update_manifest_status(None, None) is None
+        assert update_manifest_obj.update_manifest_status(None) is None
