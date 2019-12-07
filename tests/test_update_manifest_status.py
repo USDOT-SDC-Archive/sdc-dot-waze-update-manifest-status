@@ -25,10 +25,6 @@ def create_mock_table():
         {
             'AttributeName': 'TableName',
             'AttributeType': 'S'
-        },
-        {
-            'AttributeName': 'FileStatus',
-            'AttributeType': 'S'
         }],
         TableName=manifest_table_name,
         KeySchema=[
