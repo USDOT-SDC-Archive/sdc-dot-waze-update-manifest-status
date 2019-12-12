@@ -76,7 +76,7 @@ def test_update_manifest_status_raises_exception():
             test_event["batchId"] = str(int(time.time()))
             test_event["tablename"] = "alert"
             update_manifest_obj = ManifestHandler()
-            update_manifest_obj.update_manifest_status(test_event)
+            update_manifest_obj.update_manifest_status(test_event, None)
     finally:
         os.environ['DDB_MANIFEST_TABLE_ARN'] = ddb_manifest_table_arn
 
@@ -88,7 +88,7 @@ def test_update_manifest_status():
     test_event["batchId"] = str(int(time.time()))
     test_event["tablename"] = "alert"
     update_manifest_obj = ManifestHandler()
-    update_manifest_obj.update_manifest_status(test_event)
+    update_manifest_obj.update_manifest_status(test_event, None)
 
 
 @mock_dynamodb2
