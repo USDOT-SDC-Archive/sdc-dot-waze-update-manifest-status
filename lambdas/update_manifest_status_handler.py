@@ -1,6 +1,9 @@
+import os
+
 import boto3
-from common.logger_utility import *
 from boto3.dynamodb.conditions import Attr, Key
+
+from common.logger_utility import LoggerUtility
 
 
 class ManifestHandler:
