@@ -1,11 +1,16 @@
+import os
+
 import boto3
-from common.logger_utility import *
 from boto3.dynamodb.conditions import Attr, Key
+
+from common.logger_utility import LoggerUtility
 
 
 class ManifestHandler:
 
-    def update_manifest_status(self, event):
+    def update_manifest_status(self, event, context):
+
+        LoggerUtility.log_info("context: {}".format(context))
         batch_id = ""
         table_name = ""
         try:
@@ -38,5 +43,5 @@ class ManifestHandler:
                 "Unable to update manifest status for  batchId {} and table {}".format(batch_id, table_name))
             raise e
 
-    def update_manifest(self, event, *args, **kwargs):
-        self.update_manifest_status(event)
+    def update_manifest(self, event, context):
+        self.update_manifest_status(event, context)

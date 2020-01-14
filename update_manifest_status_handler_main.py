@@ -1,5 +1,5 @@
-from lambdas.update_manifest_status_handler import *
-from common.logger_utility import *
+from common.logger_utility import LoggerUtility
+from lambdas.update_manifest_status_handler import ManifestHandler
 
 
 def lambda_handler(event, context):
