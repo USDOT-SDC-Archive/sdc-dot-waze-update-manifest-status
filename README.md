@@ -1,6 +1,10 @@
-[![Build Status](https://travis-ci.org/usdot-jpo-sdc-projects/sdc-dot-waze-update-manifest-status.svg?branch=master)](https://travis-ci.org/usdot-jpo-sdc-projects/sdc-dot-waze-update-manifest-status)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=usdot-jpo-sdc-projects_sdc-dot-waze-update-manifest-status&metric=coverage)](https://sonarcloud.io/dashboard?id=usdot-jpo-sdc-projects_sdc-dot-waze-update-manifest-status)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usdot-jpo-sdc-projects_sdc-dot-waze-update-manifest-status&metric=alert_status)](https://sonarcloud.io/dashboard?id=usdot-jpo-sdc-projects_sdc-dot-waze-update-manifest-status)
+# This repository is DEPRECATED!
+
+This repository is deprecated as of **08/05/2020**.
+
+The code and infrastructure has moved to https://github.com/usdot-jpo-sdc-projects/sdc-dot-waze-pipeline
+
+Please refer to the waze pipeline repo for all future development.
 
 # sdc-dot-waze-update-manifest-status
 This lambda function is responsible for updating the manifest status in dynamoDB.
